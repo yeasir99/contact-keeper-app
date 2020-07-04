@@ -1,8 +1,17 @@
 const express = require("express");
+const connectDB = require('./config/db');
+const connectdb = require("./config/db");
 
 const app = express();
 
+//connectDB
+connectdb();
 
+
+//init middleware for parse json data
+app.use(express.json({
+    extended: false
+}))
 //Define Routes
 
 app.use('/api/users', require('./routes/users'));
