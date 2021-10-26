@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import AuthState from './context/auth/AuthState';
+import { AuthProvider } from './context/auth/AuthState';
 import { ContactProvider } from './context/contact/ContactState';
 import AlertState from './context/alert/AlertState';
 import Navbar from './components/layout/Navbar';
@@ -19,7 +19,7 @@ if (localStorage.token) {
 
 const App = () => {
   return (
-    <AuthState>
+    <AuthProvider>
       <ContactProvider>
         <AlertState>
           <Router>
@@ -38,7 +38,7 @@ const App = () => {
           </Router>
         </AlertState>
       </ContactProvider>
-    </AuthState>
+    </AuthProvider>
   );
 };
 
