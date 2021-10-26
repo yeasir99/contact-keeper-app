@@ -1,6 +1,6 @@
-import * as ACTIONS from "../types";
+import * as ACTIONS from '../types';
 
-export default (state, action) => {
+const authReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.USER_LOADED:
       return {
@@ -11,7 +11,7 @@ export default (state, action) => {
       };
     case ACTIONS.REGISTER_SUCCESS:
     case ACTIONS.LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         ...action.payload,
@@ -22,7 +22,7 @@ export default (state, action) => {
     case ACTIONS.AUTH_ERROR:
     case ACTIONS.LOGIN_FAIL:
     case ACTIONS.LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
@@ -40,3 +40,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default authReducer;

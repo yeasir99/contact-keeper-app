@@ -1,112 +1,26 @@
-import React, { useReducer } from "react";
-import * as ACTIONS from "../types";
-import axios from "axios";
-import authReducer from "./authReducer";
-import authContext from "./authContext";
-import setAuthToken from "../../utils/setAuthToken";
+import React, { useReducer, createContext, useContext } from 'react';
+import authReducer from './authReducer';
 
-const AuthState = ({ children }) => {
-  const initialState = {
-    token: localStorage.getItem("token"),
+const authContext = createContext();
+
+authContext.displayName = 'AuthContext';
+
+export const useAuth = () => {
+  const context = useContext(authContext);
+  if (!context) {
+    throw new Error(`Component must be wrapped with in AuthContextProvider`);
+  }
+  return context;
+};
+
+export const AuthProvider = props => {
+  const [state, dispatch] = useReducer(authReducer, {
+    token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     user: null,
     error: null,
-  };
+  });
 
-  const [state, dispatch] = useReducer(authReducer, initialState);
-
-  //Load user
-  const loadUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-    try {
-      const res = await axios.get("/api/auth");
-      dispatch({
-        type: ACTIONS.USER_LOADED,
-        payload: res.data,
-      });
-    } catch (err) {
-      dispatch({
-        type: ACTIONS.AUTH_ERROR,
-      });
-    }
-  };
-
-  //Register user
-  const register = async (formdata) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    try {
-      const res = await axios.post("/api/users", formdata, config);
-      dispatch({
-        type: ACTIONS.REGISTER_SUCCESS,
-        payload: res.data,
-      });
-      loadUser();
-    } catch (err) {
-      dispatch({
-        type: ACTIONS.REGISTER_FAIL,
-        payload: err.response.data.msg,
-      });
-    }
-  };
-
-  //Login User
-  const loginUser = async (formData) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.post("/api/auth", formData, config);
-
-      dispatch({
-        type: ACTIONS.LOGIN_SUCCESS,
-        payload: res.data,
-      });
-      loadUser();
-    } catch (err) {
-      dispatch({
-        type: ACTIONS.LOGIN_FAIL,
-        payload: err.response.data.msg,
-      });
-    }
-  };
-
-  //Logout user
-  const logout = () =>
-    dispatch({
-      type: ACTIONS.LOGOUT,
-    });
-
-  //Clear user
-  const clearError = () => dispatch({ type: ACTIONS.CLEAR_ERRORS });
-
-  return (
-    <authContext.Provider
-      value={{
-        token: state.token,
-        isAuthenticated: state.isAuthenticated,
-        loading: state.loading,
-        user: state.user,
-        error: state.error,
-        register,
-        clearError,
-        loadUser,
-        loginUser,
-        logout,
-      }}
-    >
-      {children}
-    </authContext.Provider>
-  );
+  return <authContext.Provider value={[state, dispatch]} {...props} />;
 };
-
-export default AuthState;
