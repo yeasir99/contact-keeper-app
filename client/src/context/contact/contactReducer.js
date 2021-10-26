@@ -1,6 +1,6 @@
-import * as ACTIONS from "../types";
+import * as ACTIONS from '../types';
 
-export default (state, action) => {
+const contactReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.GET_CONTACTS:
       return {
@@ -17,7 +17,7 @@ export default (state, action) => {
     case ACTIONS.UPDATE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.map((contact) =>
+        contacts: state.contacts.map(contact =>
           contact._id === action.payload._id ? action.payload : contact
         ),
         loading: false,
@@ -26,7 +26,7 @@ export default (state, action) => {
       return {
         ...state,
         contacts: state.contacts.filter(
-          (contact) => contact._id !== action.payload
+          contact => contact._id !== action.payload
         ),
         loading: false,
       };
@@ -51,8 +51,8 @@ export default (state, action) => {
     case ACTIONS.FILTER_CONTACT:
       return {
         ...state,
-        filtered: state.contacts.filter((contact) => {
-          const regex = new RegExp(`${action.payload}`, "gi");
+        filtered: state.contacts.filter(contact => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
           return contact.name.match(regex) || contact.email.match(regex);
         }),
       };
@@ -67,6 +67,8 @@ export default (state, action) => {
         error: action.payload,
       };
     default:
-      return state;
+      throw new Error(`Unsupported type: ${action.type}`);
   }
 };
+
+export default contactReducer;

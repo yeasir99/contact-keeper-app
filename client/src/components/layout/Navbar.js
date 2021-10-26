@@ -1,15 +1,16 @@
-import React, { useContext, Fragment } from "react";
-import { Link } from "react-router-dom";
-import { FaIdCardAlt, FaSignOutAlt } from "react-icons/fa";
-import authContext from "../../context/auth/authContext";
-import contactContext from "../../context/contact/contactContext";
+import React, { useContext, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { FaIdCardAlt, FaSignOutAlt } from 'react-icons/fa';
+import authContext from '../../context/auth/authContext';
+import { useContact } from '../../context/contact/ContactState';
+import { clearContacts } from '../../context/contact/contactAction';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useContext(authContext);
-  const { clearContacts } = useContext(contactContext);
+  const [, contactDispatch] = useContact();
   const onLogout = () => {
     logout();
-    clearContacts();
+    clearContacts(contactDispatch);
   };
   const authLinks = (
     <Fragment>

@@ -1,22 +1,26 @@
-import React, { useContext, useRef, useEffect } from "react";
-import contactContext from "../../context/contact/contactContext";
+import React, { useRef, useEffect } from 'react';
+import { useContact } from '../../context/contact/ContactState';
+import {
+  filterContacts,
+  clearFilter,
+} from '../../context/contact/contactAction';
 
 const ContactFilter = () => {
-  const text = useRef("");
+  const text = useRef('');
 
-  const { filterContacts, clearFilter, filtered } = useContext(contactContext);
+  const [{ filtered }, contactDispatch] = useContact();
 
   useEffect(() => {
     if (filtered === null) {
-      text.current.value = "";
+      text.current.value = '';
     }
   });
 
-  const onChange = (e) => {
-    if (text.current.value !== "") {
-      filterContacts(e.target.value);
+  const onChange = e => {
+    if (text.current.value !== '') {
+      filterContacts(contactDispatch)(e.target.value);
     } else {
-      clearFilter();
+      clearFilter(contactDispatch);
     }
   };
 

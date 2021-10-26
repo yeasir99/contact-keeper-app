@@ -1,33 +1,34 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { FaEnvelopeOpen, FaPhone } from "react-icons/fa";
-import contactContext from "../../context/contact/contactContext";
+import React from 'react';
+import { useContact } from '../../context/contact/ContactState';
+import PropTypes from 'prop-types';
+import { FaEnvelopeOpen, FaPhone } from 'react-icons/fa';
+import {
+  setCurrent,
+  deleteContact,
+  clearCurrent,
+} from '../../context/contact/contactAction';
 
 const ContactItem = ({ contact }) => {
-  const { deleteContact, setCurrent, clearCurrent } = useContext(
-    contactContext
-  );
+  const [, contactDispatch] = useContact();
 
   const { _id, name, email, phone, type } = contact;
 
-  const handleEdit = () => {
-    setCurrent(contact);
-  };
+  const handleEdit = () => setCurrent(contactDispatch)(contact);
 
   const handleDelete = () => {
-    deleteContact(_id);
-    clearCurrent();
+    deleteContact(contactDispatch)(_id);
+    clearCurrent(contactDispatch);
   };
 
   return (
     <div className="card bg-light">
       <h3 className="text-primary text-left">
-        {name}{" "}
+        {name}{' '}
         <span
-          style={{ float: "right" }}
+          style={{ float: 'right' }}
           className={
-            "badge " +
-            (type === "professional" ? "badge-success" : "badge-primary")
+            'badge ' +
+            (type === 'professional' ? 'badge-success' : 'badge-primary')
           }
         >
           {type.charAt(0).toUpperCase() + type.slice(1)}
