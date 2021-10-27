@@ -8,8 +8,10 @@ import { getContacts } from '../../context/contact/contactAction';
 const Contacts = () => {
   const [{ contacts, filtered, loading }, contactDispatch] = useContact();
 
+  console.log(contacts, loading);
+
   useEffect(() => {
-    getContacts(contactDispatch);
+    getContacts(contactDispatch)();
     // eslint-disable-next-line
   }, []);
 

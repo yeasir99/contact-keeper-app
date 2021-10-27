@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import Contacts from "../contacts/Contacts";
-import ContactForm from "../contacts/ContactForm";
-import ContactFilter from "../contacts/ContactFilter";
-import authContext from "../../context/auth/authContext";
+import React, { useEffect } from 'react';
+import Contacts from '../contacts/Contacts';
+import ContactForm from '../contacts/ContactForm';
+import ContactFilter from '../contacts/ContactFilter';
+import { useAuth } from '../../context/auth/AuthState';
+import { loadUser } from '../../context/auth/authAction';
 
 const Home = () => {
-  const { loadUser } = useContext(authContext);
+  const [, authDispatch] = useAuth();
 
   useEffect(() => {
-    loadUser();
+    loadUser(authDispatch);
     // eslint-disable-next-line
   }, []);
 

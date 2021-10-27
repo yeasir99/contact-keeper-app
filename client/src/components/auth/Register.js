@@ -1,43 +1,42 @@
-import React, { useState, useContext, useEffect } from "react";
-import alertContext from "../../context/alert/alertContext";
-import authContext from "../../context/auth/authContext";
+import React, { useState, useContext, useEffect } from 'react';
+import alertContext from '../../context/alert/alertContext';
+import { useAuth } from '../../context/auth/AuthState';
+import { register, clearError } from '../../context/auth/authAction';
 
 const Register = ({ history }) => {
   const { setAlert } = useContext(alertContext);
-  const { register, error, clearError, isAuthenticated } = useContext(
-    authContext
-  );
+  const [{ error, isAuthenticated }, authDispatch] = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      history.push('/');
     }
-    if (error === "User already exists") {
-      setAlert(error, "danger");
-      clearError();
+    if (error === 'User already exists') {
+      setAlert(error, 'danger');
+      clearError(authDispatch);
     }
     // eslint-disable-next-line
   }, [error, isAuthenticated, history]);
 
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password2: "",
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
   });
   const { name, email, password, password2 } = user;
 
-  const handleChange = (e) =>
+  const handleChange = e =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    if (name === "" || email === "" || password === "") {
-      setAlert("Please enter all fields", "danger");
+    if (name === '' || email === '' || password === '') {
+      setAlert('Please enter all fields', 'danger');
     } else if (password !== password2) {
-      setAlert("Password do not match", "danger");
+      setAlert('Password do not match', 'danger');
     } else {
-      register({ name, email, password });
+      register(authDispatch)({ name, email, password });
     }
   };
 

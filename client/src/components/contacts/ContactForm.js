@@ -7,26 +7,25 @@ import {
 } from '../../context/contact/contactAction';
 
 const ContactForm = () => {
-  const [{ current }, contactDispatch] = useContact();
-
-  useEffect(() => {
-    if (current !== null) {
-      setContact(contactDispatch)(current);
-    } else {
-      setContact({
-        name: '',
-        email: '',
-        phone: '',
-        type: 'personal',
-      });
-    }
-  }, [current, contactDispatch]);
-  const [contact, setContact] = useState({
+  const initialState = {
     name: '',
     email: '',
     phone: '',
     type: 'personal',
-  });
+  };
+
+  const [contact, setContact] = useState(initialState);
+
+  const [{ current }, contactDispatch] = useContact();
+
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact(initialState);
+    }
+    // eslint-disable-next-line
+  }, [current]);
 
   const { name, email, phone, type } = contact;
 
@@ -41,6 +40,7 @@ const ContactForm = () => {
       updateContact(contactDispatch)(contact);
     }
     clearAll();
+    setContact(initialState);
   };
 
   const clearAll = () => clearCurrent(contactDispatch);
