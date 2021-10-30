@@ -1,32 +1,22 @@
-import React, { useEffect } from 'react';
-import Contacts from '../contacts/Contacts';
-import ContactForm from '../contacts/ContactForm';
-import ContactFilter from '../contacts/ContactFilter';
-import { useContact } from '../../context/contact/ContactState';
-import { getContacts } from '../../context/contact/contactAction';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useAuth } from '../../context/auth/AuthState';
 import { loadUser } from '../../context/auth/authAction';
 
+const HomeElements = lazy(() => import('../HomeElements'));
+
 const Home = () => {
   const [, authDispatch] = useAuth();
-  const [, contactDispatch] = useContact();
 
   useEffect(() => {
     loadUser(authDispatch)();
-    getContacts(contactDispatch)();
+
     // eslint-disable-next-line
   }, []);
 
   return (
-    <div className="grid-2">
-      <div>
-        <ContactForm />
-      </div>
-      <div>
-        <ContactFilter />
-        <Contacts />
-      </div>
-    </div>
+    <Suspense fallback={() => <h1>Loading...</h1>}>
+      <HomeElements />
+    </Suspense>
   );
 };
 

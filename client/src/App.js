@@ -1,10 +1,10 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/auth/AuthState';
-import { ContactProvider } from './context/contact/ContactState';
 import AlertState from './context/alert/AlertState';
 import Navbar from './components/layout/Navbar';
 import Alerts from './components/layout/Alerts';
 import AppRoutes from './AppRoutes';
+import { ContactProvider } from './context/contact/ContactState';
 
 import setAuthToken from './utils/setAuthToken';
 import './App.css';
