@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export const getContacts = dispatch => async () => {
   try {
+    dispatch({ type: ACTIONS.SET_REQUEST_LOADING });
     const res = await axios.get('/api/contacts');
 
     dispatch({ type: ACTIONS.GET_CONTACTS, payload: res.data });

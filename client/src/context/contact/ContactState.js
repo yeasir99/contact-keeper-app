@@ -15,11 +15,11 @@ export const useContact = () => {
 
 export const ContactProvider = props => {
   const [state, dispatch] = useReducer(contactReducer, {
-    contacts: null,
+    contacts: [],
     current: null,
     filtered: null,
     error: null,
-    loading: true,
+    loading: false,
   });
 
   return <contactContext.Provider value={[state, dispatch]} {...props} />;

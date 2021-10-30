@@ -33,7 +33,7 @@ const contactReducer = (state, action) => {
     case ACTIONS.CLEAR_CONTACTS:
       return {
         ...state,
-        contacts: null,
+        contacts: [],
         filtered: null,
         current: null,
         error: null,
@@ -42,6 +42,11 @@ const contactReducer = (state, action) => {
       return {
         ...state,
         current: action.payload,
+      };
+    case ACTIONS.SET_REQUEST_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     case ACTIONS.CLEAR_CURRENT:
       return {
