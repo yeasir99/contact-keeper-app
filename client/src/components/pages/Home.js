@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { useAuth } from '../../context/auth/AuthState';
 import { loadUser } from '../../context/auth/authAction';
+import Fallback from '../Fallback';
 
 const HomeElements = lazy(() => import('../HomeElements'));
 
@@ -14,7 +15,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Suspense fallback={() => <h1>Loading...</h1>}>
+    <Suspense fallback={<Fallback />}>
       <HomeElements />
     </Suspense>
   );
