@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
-import * as ACTIONS from "../types";
-import { v4 as uuidv4 } from "uuid";
-import alertContext from "./alertContext";
-import alertReducer from "./alertReducer";
+import React, { useReducer } from 'react';
+import * as ACTIONS from '../types';
+import { v4 as uuidv4 } from 'uuid';
+import alertContext from './alertContext';
+import alertReducer from './alertReducer';
 
 const AlertState = ({ children }) => {
   const initialState = [];
