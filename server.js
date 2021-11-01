@@ -1,17 +1,21 @@
-const express = require("express");
-const connectDB = require('./config/db');
-const connectdb = require("./config/db");
+const express = require('express');
+const connectdb = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 //connectDB
 connectdb();
 
-
 //init middleware for parse json data
-app.use(express.json({
-    extended: false
-}))
+app.use(
+  express.json({
+    extended: false,
+  })
+);
+
+// cookie parse
+app.use(cookieParser());
 //Define Routes
 
 app.use('/api/users', require('./routes/users'));
