@@ -63,10 +63,19 @@ export const loginUser = dispatch => async formData => {
 };
 
 //Logout user
-export const logout = dispatch =>
-  dispatch({
-    type: ACTIONS.LOGOUT,
-  });
+export const logout = dispatch => async () => {
+  try {
+    await axios.get('/api/auth/logout');
+    dispatch({
+      type: ACTIONS.LOGOUT,
+    });
+  } catch (error) {
+    dispatch({
+      type: ACTIONS.LOGIN_FAIL,
+      payload: error,
+    });
+  }
+};
 
 //Clear user
 export const clearError = dispatch => dispatch({ type: ACTIONS.CLEAR_ERRORS });

@@ -10,16 +10,25 @@ const Navbar = () => {
   const [{ isAuthenticated, user }, authDispatch] = useAuth();
   const [, contactDispatch] = useContact();
   const onLogout = () => {
-    logout(authDispatch);
+    logout(authDispatch)();
     clearContacts(contactDispatch);
   };
   const authLinks = (
     <Fragment>
       <li>Hello {user && user.name}</li>
-      <li>
-        <a href="#!" onClick={onLogout}>
+      <li
+        style={{
+          padding: '0 5px',
+        }}
+      >
+        <div
+          onClick={onLogout}
+          style={{
+            cursor: 'pointer',
+          }}
+        >
           <FaSignOutAlt /> <span className="hide-sm">Logout</span>
-        </a>
+        </div>
       </li>
     </Fragment>
   );

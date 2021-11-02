@@ -13,7 +13,7 @@ const authReducer = (state, action) => {
     case ACTIONS.LOGIN_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        token: action.payload.token,
         isAuthenticated: true,
         loading: false,
       };
@@ -29,6 +29,12 @@ const authReducer = (state, action) => {
         user: null,
         error: action.payload,
       };
+    case ACTIONS.LOGOUT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case ACTIONS.CLEAR_ERRORS:
       return {
         ...state,

@@ -88,4 +88,21 @@ router.post(
   }
 );
 
+//@ routes   GET api/auth/logout
+//@ desc     Logout from login state
+//@ access   Private
+
+router.get('/logout', auth, async (req, res) => {
+  try {
+    res.cookie('token', '', {
+      httpOnly: true,
+    });
+    res.json({
+      msg: 'Logout Successfull',
+    });
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
